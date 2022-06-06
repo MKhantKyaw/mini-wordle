@@ -1,3 +1,4 @@
+import Keyboard from './components/Keyboard/Keyboard';
 import Navbar from './components/Navbar/Navbar'
 import WordGrid from './components/WordGrid/WordGrid';
 
@@ -6,6 +7,7 @@ const App = () => {
         <>
             <Navbar />
             <WordGrid />
+            <Keyboard />
         </>
     );
 }
