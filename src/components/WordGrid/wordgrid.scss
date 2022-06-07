@@ -11,9 +11,34 @@
     }
 
     .block {
-        width: 60px;
-        height: 60px;
+        width: 55px;
+        height: 55px;
         border: 1px solid gray;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 36px;
+
+        &.correct {
+            background-color: green;
+            color: white;
+            font-weight: 600;
+            border: 1px solid green;
+        }
+
+        &.placement {
+            background-color: goldenrod;
+            color: white;
+            font-weight: 600;
+            border: 1px solid goldenrod;
+        }
+
+        &.wrong {
+            background-color: gray;
+            color: white;
+            font-weight: 600;
+            border: 1px solid gray;
+        }
     }
 
 }

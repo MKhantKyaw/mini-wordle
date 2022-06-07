@@ -1,14 +1,15 @@
 import './wordgrid.scss'
-import { defaultWord } from './word';
 
-const WordGrid = () => {
+
+const WordGrid = ({ word, setWord, attempt }) => {
+
     return (
         <div className="wordgrid">
-            {defaultWord.map((column) => {
+            {word.map((column, index) => {
                 return (
-                    <div className="line">
-                        {column.map((row) => {
-                            return <div className="block">{row}</div>
+                    <div className="line" key={index}>
+                        {column.map((row, indexRow) => {
+                            return <div className="block" key={indexRow}>{row}</div>
                         })}
                     </div>
                 )

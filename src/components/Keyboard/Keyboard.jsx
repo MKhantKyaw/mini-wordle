@@ -1,47 +1,82 @@
 import './keyboard.scss'
 import { Backspace } from '@mui/icons-material'
+import { useEffect } from 'react'
+import wordExists from 'word-exists'
 
-const Keyboard = () => {
-    const clickAction = (e) => {
-        console.log(e.target.value)
+const topKeys = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"]
+const midKeys = ["a", "s", "d", "f", "g", "h", "j", "k", "l"]
+const botKeys = ["z", "x", "c", "v", "b", "n", "m"]
+
+const allKeys = [topKeys, botKeys, midKeys, "Enter", "Backspace"].flat()
+
+const Keyboard = ({ setWord, attempt, letterCount, word }) => {
+    const clickAction = (value) => {
+        if (attempt.current === 5) {
+            window.removeEventListener("keydown", (e) => clickAction(e.key))
+            return
+        }
+        if (allKeys.includes(value)) {
+            const newState = [...word]
+            const clickedWord = value
+            if (clickedWord === "Backspace") {
+                newState[attempt.current][letterCount.current - 1] = ""
+                if (letterCount.current !== 0) letterCount.current -= 1
+            }
+            if (clickedWord !== "Backspace" && clickedWord !== "Enter" && letterCount.current < 5) {
+                newState[attempt.current][letterCount.current] = clickedWord.toUpperCase()
+                letterCount.current += 1;
+            }
+
+            if (clickedWord === "Enter" && letterCount.current === 5) {
+                if (wordExists(newState[attempt.current].join('')) === true) {
+                    attempt.current += 1
+                    letterCount.current = 0
+                }
+            }
+            console.log(attempt.current)
+            setWord(newState)
+        }
     }
+
+    useEffect(() => {
+        console.log(attempt.current)
+
+        window.addEventListener("keydown", (e) => clickAction(e.key))
+        if (attempt.current > 4) {
+            console.log('lee pl')
+            window.removeEventListener("keydown", clickAction)
+        }
+
+
+        // eslint-disable-next-line
+    }, [])
+
     return (
         <div className="keyboard">
             <div className="top">
-                <button value="q" className="key" onClick={(e) => clickAction(e)}>q</button>
-                <button value="w" className="key" onClick={(e) => clickAction(e)}>w</button>
-                <button value="e" className="key" onClick={(e) => clickAction(e)}>e</button>
-                <button value="r" className="key" onClick={(e) => clickAction(e)}>r</button>
-                <button value="t" className="key" onClick={(e) => clickAction(e)}>t</button>
-                <button value="y" className="key" onClick={(e) => clickAction(e)}>y</button>
-                <button value="u" className="key" onClick={(e) => clickAction(e)}>u</button>
-                <button value="i" className="key" onClick={(e) => clickAction(e)}>i</button>
-                <button value="o" className="key" onClick={(e) => clickAction(e)}>o</button>
-                <button value="p" className="key" onClick={(e) => clickAction(e)}>p</button>
+                {topKeys.map((topKey, index) => {
+                    return (
+                        <button value={topKey} className="key" key={index} onClick={(e) => clickAction(e.target.value)}>{topKey}</button>
+                    )
+                })}
             </div>
 
             <div className="middle">
-                <button value="a" className="key" onClick={(e) => clickAction(e)}>a</button>
-                <button value="s" className="key" onClick={(e) => clickAction(e)}>s</button>
-                <button value="d" className="key" onClick={(e) => clickAction(e)}>d</button>
-                <button value="f" className="key" onClick={(e) => clickAction(e)}>f</button>
-                <button value="g" className="key" onClick={(e) => clickAction(e)}>g</button>
-                <button value="h" className="key" onClick={(e) => clickAction(e)}>h</button>
-                <button value="j" className="key" onClick={(e) => clickAction(e)}>j</button>
-                <button value="k" className="key" onClick={(e) => clickAction(e)}>k</button>
-                <button value="l" className="key" onClick={(e) => clickAction(e)}>l</button>
+                {midKeys.map((midKey, index) => {
+                    return (
+                        <button value={midKey} className="key" key={index} onClick={(e) => clickAction(e.target.value)}>{midKey}</button>
+                    )
+                })}
             </div>
 
             <div className="bottom">
-                <button value="Enter" className="bkey" onClick={(e) => clickAction(e)}>Enter</button>
-                <button value="z" className="key wrong" onClick={(e) => clickAction(e)}>z</button>
-                <button value="x" className="key placement" onClick={(e) => clickAction(e)}>x</button>
-                <button value="c" className="key correct" onClick={(e) => clickAction(e)}>c</button>
-                <button value="v" className="key" onClick={(e) => clickAction(e)}>v</button>
-                <button value="b" className="key" onClick={(e) => clickAction(e)}>b</button>
-                <button value="n" className="key" onClick={(e) => clickAction(e)}>n</button>
-                <button value="m" className="key" onClick={(e) => clickAction(e)}>m</button>
-                <button value="bspace" className="bkey" onClick={(e) => clickAction(e)}><Backspace className="icon" /></button>
+                <button value="Enter" className="bkey" onClick={(e) => clickAction(e.target.value)}>Enter</button>
+                {botKeys.map((botKey, index) => {
+                    return (
+                        <button value={botKey} className="key" key={index} onClick={(e) => clickAction(e.target.value)}>{botKey}</button>
+                    )
+                })}
+                <button value="Backspace" className="bkey" onClick={(e) => clickAction(e.target.value)}><Backspace className="icon" /></button>
             </div>
         </div >
     );

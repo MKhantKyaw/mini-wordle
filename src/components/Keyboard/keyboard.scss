@@ -17,10 +17,15 @@
         .bkey {
             width: 55px;
             height: 45px;
+            font-weight: 550;
             color: rgb(68, 68, 68);
             font-size: 16px;
             border: 1px solid lightgray;
             border-radius: 5px;
+
+            &:hover {
+                background-color: lightgray;
+            }
 
             .icon {
                 pointer-events: none;
