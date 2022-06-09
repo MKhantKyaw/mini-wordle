@@ -1,0 +1,11 @@
+.app {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+.win,
+.lose {
+    background: gray;
+    backdrop-filter: blur(4px);
+}

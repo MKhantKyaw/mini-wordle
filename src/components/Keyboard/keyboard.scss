@@ -27,12 +27,25 @@
                 background-color: lightgray;
             }
 
+            &.win,
+            &.lose {
+                background: gray;
+                backdrop-filter: blur(4px);
+                border: 1px solid gray;
+            }
+
             .icon {
                 pointer-events: none;
                 text-align: center;
                 margin-top: 4px;
                 font-size: 18px;
             }
+        }
+
+        .win,
+        .lose {
+            background: gray;
+            backdrop-filter: blur(4px);
         }
 
         .key {
@@ -45,23 +58,11 @@
             border: 1px solid lightgray;
             border-radius: 5px;
 
-            &.correct {
-                background-color: green;
-                border: 1px solid green;
-                color: white;
-            }
-
-            &.wrong {
-                background-color: gray;
+            &.win,
+            &.lose {
+                background: gray;
+                backdrop-filter: blur(4px);
                 border: 1px solid gray;
-                color: white;
-            }
-
-            &.placement {
-                background-color: gold;
-                border: 1px solid gold;
-                color: white;
-
             }
 
             &:hover {
@@ -71,6 +72,7 @@
 
         }
     }
+
 
 
 }

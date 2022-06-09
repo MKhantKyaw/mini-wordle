@@ -11,7 +11,7 @@ const botKeys = ["z", "x", "c", "v", "b", "n", "m"]
 
 const allKeys = [topKeys, botKeys, midKeys, "Enter", "Backspace"].flat()
 
-const Keyboard = ({ setWord, attempt, letterCount, word, letterColor, setLetterColor }) => {
+const Keyboard = ({ setWord, attempt, letterCount, word, letterColor, setLetterColor, gameComplete, setGameComplete }) => {
     const [mainWord, setMainWord] = useState(dictionary[Math.floor(Math.random() * 211)])
     // const [mainWord, setMainWord] = useState("speed")
     //main word is decomposed into array
@@ -24,9 +24,8 @@ const Keyboard = ({ setWord, attempt, letterCount, word, letterColor, setLetterC
 
 
     const clickAction = (value) => {
-        if (attempt.current === 5) {
+        if (attempt.current === 5 || gameComplete) {
             return window.removeEventListener("keydown", (e) => clickAction(e.key))
-
         }
         if (allKeys.includes(value)) {
             const newState = [...word]
@@ -45,10 +44,21 @@ const Keyboard = ({ setWord, attempt, letterCount, word, letterColor, setLetterC
                 const inputWord = newState[attempt.current].join('')
                 if (wordExists(inputWord) === true) {
                     newColor[attempt.current] = compare(originWord, newState[attempt.current])
-                    console.log(originWord)
+                    console.log(newColor[attempt.current])
+                    if (JSON.stringify(newColor[attempt.current]) === JSON.stringify(['correct', 'correct', 'correct', 'correct', 'correct'])) {
+                        console.log(newColor)
+                        gameComplete = "win"
+                        console.log(gameComplete)
+                        setGameComplete(gameComplete)
+                    }
                     attempt.current += 1
                     letterCount.current = 0
                     setLetterColor(newColor)
+                }
+                if (attempt.current === 5) {
+                    gameComplete = "lose"
+                    setGameComplete(gameComplete)
+                    console.log(gameComplete)
                 }
             }
             setWord(newState)
@@ -67,7 +77,7 @@ const Keyboard = ({ setWord, attempt, letterCount, word, letterColor, setLetterC
             <div className="top">
                 {topKeys.map((topKey, index) => {
                     return (
-                        <button value={topKey} className="key" key={index} onClick={(e) => clickAction(e.target.value)}>{topKey}</button>
+                        <button value={topKey} className={`key ${gameComplete}`} key={index} onClick={(e) => clickAction(e.target.value)}>{topKey}</button>
                     )
                 })}
             </div>
@@ -75,19 +85,19 @@ const Keyboard = ({ setWord, attempt, letterCount, word, letterColor, setLetterC
             <div className="middle">
                 {midKeys.map((midKey, index) => {
                     return (
-                        <button value={midKey} className="key" key={index} onClick={(e) => clickAction(e.target.value)}>{midKey}</button>
+                        <button value={midKey} className={`key ${gameComplete}`} key={index} onClick={(e) => clickAction(e.target.value)}>{midKey}</button>
                     )
                 })}
             </div>
 
             <div className="bottom">
-                <button value="Enter" className="bkey" onClick={(e) => clickAction(e.target.value)}>Enter</button>
+                <button value="Enter" className={`bkey ${gameComplete}`} onClick={(e) => clickAction(e.target.value)}>Enter</button>
                 {botKeys.map((botKey, index) => {
                     return (
-                        <button value={botKey} className="key" key={index} onClick={(e) => clickAction(e.target.value)}>{botKey}</button>
+                        <button value={botKey} className={`key ${gameComplete}`} key={index} onClick={(e) => clickAction(e.target.value)}>{botKey}</button>
                     )
                 })}
-                <button value="Backspace" className="bkey" onClick={(e) => clickAction(e.target.value)}><Backspace className="icon" /></button>
+                <button value="Backspace" className={`bkey ${gameComplete}`} onClick={(e) => clickAction(e.target.value)}><Backspace className="icon" /></button>
             </div>
         </div >
     );

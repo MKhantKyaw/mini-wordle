@@ -16,7 +16,7 @@ export function compare(originArr, inputArr) {
     if (leftArr) {
         leftArr.forEach(i => {
             const correctPos = origin.indexOf(inputArr[i].toLowerCase())
-            console.log("origin", origin, "input", inputArr[i], correctPos)
+            // console.log("origin", origin, "input", inputArr[i], correctPos)
             // console.log(correctPos, i, inputArr[i].toLowerCase())
             if (origin.includes(inputArr[i].toLowerCase()) && correctPos !== i) {
                 // console.log("correctPos", correctPos)
