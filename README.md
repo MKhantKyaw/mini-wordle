@@ -1,3 +1,7 @@
+# Launch the app here
+  
+  https://mini-wordle.vercel.app/
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
