@@ -13,6 +13,7 @@ const allKeys = [topKeys, botKeys, midKeys, "Enter", "Backspace"].flat()
 
 const Keyboard = ({ setWord, attempt, letterCount, word, letterColor, setLetterColor }) => {
     const [mainWord, setMainWord] = useState(dictionary[Math.floor(Math.random() * 211)])
+    // const [mainWord, setMainWord] = useState("speed")
     //main word is decomposed into array
 
     const originWord = mainWord.toLowerCase().split("")
@@ -44,6 +45,7 @@ const Keyboard = ({ setWord, attempt, letterCount, word, letterColor, setLetterC
                 const inputWord = newState[attempt.current].join('')
                 if (wordExists(inputWord) === true) {
                     newColor[attempt.current] = compare(originWord, newState[attempt.current])
+                    console.log(originWord)
                     attempt.current += 1
                     letterCount.current = 0
                     setLetterColor(newColor)
